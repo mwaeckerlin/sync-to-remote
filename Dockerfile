@@ -4,6 +4,8 @@ ENV TERM xterm
 
 ENV FROM         "/data"
 ENV TO           ""
+ENV HOST         ""
+ENV RSYNC_OPTS   "-aq --delete"
 ENV SSH_PUBKEY   ""
 ENV SSH_PRIVKEY  ""
 ENV KEYSIZE      "4096"

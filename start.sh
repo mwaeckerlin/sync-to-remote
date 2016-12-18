@@ -14,13 +14,14 @@ if ! test -f ~/.ssh/id_rsa.pub; then
     else
         echo | ssh-keygen -qb ${KEYSIZE} -N ""; echo;
     fi
+    ssh-keyscan -H ${HOST:-${TO%%:*}} >> ~/.ssh/known_hosts;
     echo "*** SSH-Public-Key:"
     cat ~/.ssh/id_rsa.pub
     sleep 120
 fi
 
 echo "==== synchronize"
-rsync -aq --delete "${FROM}" "${TO}"
+rsync ${RSYNC_OPTS} "${FROM}" "${TO}"
 
 echo "==== starting service"
 while true; do
@@ -29,7 +30,7 @@ while true; do
             if test -f "$p"; then
                 scp -r "$p" "${p//${FROM//\//\\/}/${TO}}"
             else
-                rsync -aq --delete "${FROM}" "${TO}"
+                rsync ${RSYNC_OPTS} "${FROM}" "${TO}"
             fi
         done
 done
