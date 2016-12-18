@@ -1,6 +1,7 @@
 FROM ubuntu
 MAINTAINER mwaeckerlin
 ENV TERM xterm
+ENV LANG "en_US.UTF-8"
 
 ENV FROM         "/data"
 ENV TO           ""
@@ -11,7 +12,7 @@ ENV SSH_PRIVKEY  ""
 ENV KEYSIZE      "4096"
 
 RUN apt-get update
-RUN apt-get install -y rsync openssh-client inotify-tools
+RUN apt-get install -y rsync openssh-client inotify-tools language-pack-en
 
 ADD start.sh /start.sh
 CMD /start.sh
