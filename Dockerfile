@@ -6,6 +6,7 @@ ENV FROM         "/data"
 ENV TO           ""
 ENV SSH_PUBKEY   ""
 ENV SSH_PRIVKEY  ""
+ENV KEYSIZE      "4096"
 
 RUN apt-get update
 RUN apt-get install -y rsync openssh-client
