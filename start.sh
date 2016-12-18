@@ -21,16 +21,14 @@ if ! test -f ~/.ssh/id_rsa.pub; then
 fi
 
 echo "==== synchronize"
-rsync ${RSYNC_OPTS} "${FROM}" "${TO}"
+rsync ${RSYNC_OPTS} "${FROM}/" "${TO}/"
 
 echo "==== starting service"
-while true; do
-    inotifywait -r --format='%w%f' -e modify,attrib,move,create,delete ${FROM} |
-        while read p; do
-            if test -f "$p"; then
-                scp -r "$p" "${p//${FROM//\//\\/}/${TO}}"
-            else
-                rsync ${RSYNC_OPTS} "${FROM}" "${TO}"
-            fi
-        done
-done
+inotifywait -r -m --format '%w%f' -e close_write "${FROM}" |
+    while read filename; do
+        if test -f "$p"; then
+            scp -r "$p" "${p//${FROM//\//\\/}/${TO}}"
+        else
+            rsync ${RSYNC_OPTS} "${FROM}/" "${TO}/"
+        fi
+    done
