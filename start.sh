@@ -30,5 +30,6 @@ while true; do
                 scp -r "$p" "${p//${FROM//\//\\/}/${TO}}"
             else
                 rsync -aq --delete "${FROM}" "${TO}"
+            fi
         done
 done
